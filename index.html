@@ -1,0 +1,57 @@
+<html>
+  <head>
+    <title>Tester</title>
+  </head>
+  <body>
+    <h1>Hello shivam</h1>
+    <form action="/users" method="POST">
+      <input type="text" name="users" value="shivam" />
+      <input type="text" name="id" value="100" />
+      <input type="text" name="name" />
+      <button type="submit">submit</button>
+    </form>
+    <button class="btn">Click</button>
+    <button class="btna">Get json</button>
+    <button class="btn2">Get User</button>
+    <script>
+      const btn = document.querySelector(".btn");
+      const btna = document.querySelector(".btna");
+      const myId = document.querySelector('input[name="id"]');
+      const btn2 = document.querySelector(".btn2");
+      btn2.addEventListener("click", () => {
+        fetch(`/users/${myId.value}`)
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+            if (data.length != 0) {
+              data.forEach((element) => {
+                console.log(element);
+              });
+            } else {
+              console.log("not found");
+            }
+          });
+      });
+      btna.addEventListener("click", () => {
+        fetch("/users")
+          .then((res) => res.json())
+          .then((data) => {
+            console.log(data);
+            data.users.forEach((element) => {
+              console.log(element);
+            });
+          });
+      });
+      btn.addEventListener("click", () => {
+        console.log("clicked");
+        const endpoint = "/users";
+        const id = myId.value;
+        fetch(endpoint + "/" + id, {
+          method: "delete",
+        })
+          .then((res) => res.json())
+          .then((data) => console.log(data));
+      });
+    </script>
+  </body>
+</html>
